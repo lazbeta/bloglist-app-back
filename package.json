@@ -24,6 +24,7 @@
     "mongoose-unique-validator": "^3.0.0"
   },
   "devDependencies": {
+    "http-proxy-middleware": "^2.0.6",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
     "supertest": "^6.2.2"
