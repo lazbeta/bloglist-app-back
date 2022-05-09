@@ -9,13 +9,13 @@ https://github.com/bet97/bloglist-app-front
 
 ## Users are able to:
 
-    log in
-    create a new account
-    comment anonymously
-    like posts
-    delete their own posts
-    create new posts
-    view others users' posts
+- log in
+- create a new account
+- comment anonymously
+- like posts
+- delete their own posts
+- create new posts
+- view others users' posts
 
 ## technologies used
 
