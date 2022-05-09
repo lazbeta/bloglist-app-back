@@ -13,6 +13,24 @@ const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+app.get('/random/site', (req, res) => {
+  request(
+    { url: 'https://bloglisting-app.herokuapp.com/random/site' },
+    (error, response, body) => {
+      if (error || response.statusCode !== 200) {
+        return res.status(500).json({ type: 'error', message: err.message });
+      }
+
+      res.json(JSON.parse(body));
+    }
+  )
+});
+
 logger.info('connecting to', config.MONGODB_URI)
 
 mongoose.connect(config.MONGODB_URI)
@@ -23,13 +41,12 @@ mongoose.connect(config.MONGODB_URI)
     logger.error('error connecting to MongoDB:', error.message)
   })
 
-app.use(cors({
-    origin: 'http://localhost:3003/api/*'
-}))
+app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
+app.use(middleware.corsMiddleware)
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
@@ -39,7 +56,6 @@ if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing')
   app.use('/api/testing', testingRouter)}
 
-app.use(middleware.corsMiddleware)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
